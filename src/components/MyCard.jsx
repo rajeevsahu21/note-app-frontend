@@ -40,7 +40,7 @@ const MyCard = ({ id, title, description, users, thisUser }) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" style={{backgroundColor:"green"}}>
-            {/* {users.length > 0 ? users[users.length-1][0].toUpperCase():"A"} */}
+            {users.length > 0 ? users[users.length-1][0].toUpperCase():"A"}
           </Avatar>
         }
         title={editing ?
