@@ -1,6 +1,5 @@
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
-
-export const socket = io('http://localhost:5000', {
-    autoConnect: false
-  });
+export const socket = io("https://d2zrimmi3o3lmz.cloudfront.net", {
+  autoConnect: false,
+});

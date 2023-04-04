@@ -1,9 +1,9 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import MyCard from '@/components/MyCard';
-import { socket } from '@/socket';
-import Modal from '@/components/Modal';
-import Navbar from '@/components/Navbar';
+import React from "react";
+import { useRouter } from "next/router";
+import MyCard from "@/components/MyCard";
+import { socket } from "@/socket";
+import Modal from "@/components/Modal";
+import Navbar from "@/components/Navbar";
 
 const Home = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const Home = () => {
     if (user) {
       setIsLoggedIn(true);
     } else {
-      router.push('/login');
+      router.push("/login");
     }
   }, []);
 
@@ -27,14 +27,14 @@ const Home = () => {
   // }
 
   const handleInfiniteScroll = async () => {
-
     console.log("Scroll Height" + document.documentElement.scrollHeight);
     console.log("Scroll Top" + document.documentElement.scrollTop);
     console.log("inner Height" + window.innerHeight);
 
     try {
       if (
-        window.innerHeight + document.documentElement.scrollTop + 2 >= document.documentElement.scrollHeight
+        window.innerHeight + document.documentElement.scrollTop + 2 >=
+        document.documentElement.scrollHeight
       ) {
         // countRun = count + 10;
         console.log("pahle", count);
@@ -47,28 +47,24 @@ const Home = () => {
         console.log(count);
         count = count + 10;
         socket.emit("scroll", { limit: count });
-        console.log("shubhak", count)
-        socket.on('scroll', (data) => {
+        console.log("shubhak", count);
+        socket.on("scroll", (data) => {
           setData(data);
           console.log("scroll data ", data);
         });
       }
-
     } catch (error) {
       console.log(error);
-
     }
-
-  }
+  };
 
   React.useEffect(() => {
-    window.addEventListener("scroll", handleInfiniteScroll)
+    window.addEventListener("scroll", handleInfiniteScroll);
     return () => window.removeEventListener("scroll", handleInfiniteScroll);
   }, []);
 
   React.useEffect(() => {
-
-    socket.on('data', (data) => {
+    socket.on("data", (data) => {
       setData(data);
       console.log("data is set", data);
     });
@@ -79,23 +75,21 @@ const Home = () => {
     // });
     socket.on("note:update", (data) => {
       console.log("updatedUser", data);
-    })
+    });
 
     return () => {
-      socket.off('data', (data) => {
+      socket.off("data", (data) => {
         setData(data);
         console.log("data is set", data);
       });
     };
   }, [count]);
 
-
   const handleLogout = () => {
     setIsLoggedIn(false);
     socket.disconnect();
-    router.push('/login');
-  }
-
+    router.push("/login");
+  };
 
   if (!isLoggedIn) {
     return null;
@@ -104,18 +98,31 @@ const Home = () => {
   return (
     <div>
       <Navbar logOut={handleLogout} user={router.query.user} />
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center', alignItems: 'center', flexWrap: "wrap" }}>
-        {data.map(item => {
-
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {data.map((item) => {
           return (
             <div key={item._id} style={{ margin: 16 }}>
-              <MyCard id={item._id} thisUser={router.query.user} title={item.title} description={item.description} users={item.contributors} />
+              <MyCard
+                id={item._id}
+                thisUser={router.query.user}
+                title={item.title}
+                description={item.description}
+                users={item.contributors}
+              />
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Home;
