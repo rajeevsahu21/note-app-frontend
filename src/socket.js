@@ -1,5 +1,5 @@
 import io from "socket.io-client";
 
-export const socket = io("https://d2zrimmi3o3lmz.cloudfront.net", {
+export const socket = io("https://note-app-socket.onrender.com", {
   autoConnect: false,
 });
